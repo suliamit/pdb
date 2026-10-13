@@ -52,7 +52,7 @@ def rsds(pe_bytes):
         if e and getattr(e, "CvSignature", b"") == b"RSDS":
             guid = "%08X%04X%04X%s" % (
                 e.Signature_Data1, e.Signature_Data2, e.Signature_Data3,
-                (e.Signature_Data4 + e.Signature_Data5 + e.Signature_Data6).hex().upper())
+                (bytes([e.Signature_Data4, e.Signature_Data5]) + e.Signature_Data6).hex().upper())
             name = os.path.basename(e.PdbFileName.rstrip(b"\0").decode().replace("\\", "/"))
             return name, f"{guid}{e.Age:X}"
     return None
